@@ -34,3 +34,12 @@ infrastructure as code, and cloud deployment.
 ## Fun Fact
 
 I spending my free time reading, meditating, hiking, and being in nature. Books help me explore new ideas, meditation keeps me grounded and relaxes my mind, and nature gives me a sense of peace and connection to the world around me.
+
+## My Week 2 Infrastructure
+
+Runner VM: seela-runner
+
+Runner IP: 10.129.3.164
+
+Pipeline Status:
+[![Hello Pipeline](https://github.com/Seelalankara/cis-410-cybersecurity-automation/actions/workflows/hello-pipeline.yml/badge.svg)](https://github.com/Seelalankara/cis-410-cybersecurity-automation/actions/workflows/hello-pipeline.yml)
