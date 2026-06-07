@@ -13,7 +13,7 @@ def index():
         branch=os.environ.get('GITHUB_REF_NAME', 'unknown'),
         deploy_time=os.environ.get('DEPLOY_TIME', 'unknown'),
         pipeline=os.environ.get('GITHUB_WORKFLOW', 'Deploy — Dev'),
-        env='dev',
+        env=os.environ.get('ENVIRONMENT', 'dev'),
         version='1.0.0'
     )
 
