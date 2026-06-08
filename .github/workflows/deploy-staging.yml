@@ -49,14 +49,9 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
         run: |
-          echo "$SSH_KEY" > /tmp/staging_key
-          chmod 600 /tmp/staging_key
-
-          scp -i /tmp/staging_key -o StrictHostKeyChecking=no -r \
+          scp -i /home/student/staging_deploy_key -o StrictHostKeyChecking=no -r \
             app/ Dockerfile .dockerignore docker-compose.yml \
             ${{ secrets.STAGING_USER }}@${{ secrets.STAGING_HOST }}:/opt/app/
-
-          rm /tmp/staging_key
 
       # ── Step 4: Build and start the container on Staging ───────────────────
       # sudo docker — SSH sessions may not activate the docker group set during setup.
@@ -69,10 +64,10 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
         run: |
-          echo "$SSH_KEY" > /tmp/staging_key
-          chmod 600 /tmp/staging_key
+          echo "$SSH_KEY" > Deployment Status Dashboard &mdash; seela-dev</div>/home/student/staging_deploy_key
+          chmod 600 Deployment Status Dashboard &mdash; seela-dev</div>/home/student/staging_deploy_key
 
-          ssh -i /tmp/staging_key -o StrictHostKeyChecking=no \
+          ssh -i Deployment Status Dashboard &mdash; seela-dev</div>/home/student/staging_deploy_key -o StrictHostKeyChecking=no \
             ${{ secrets.STAGING_USER }}@${{ secrets.STAGING_HOST }} << 'EOF'
           set -e
           cd /opt/app
@@ -95,7 +90,7 @@ jobs:
           sudo docker compose ps
           EOF
 
-          rm /tmp/staging_key
+          rm Deployment Status Dashboard &mdash; seela-dev</div>/home/student/staging_deploy_key
 
       # ── Step 5: Smoke test ──────────────────────────────────────────────────
       # curl -f returns a non-zero exit code on 4xx/5xx — fails the whole run.
