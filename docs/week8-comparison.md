@@ -2,53 +2,27 @@
 
 ## Comparison Table
 
-Fill in the Cloud Run column based on your actual experience this week.
-Do not leave any row blank.
-
 | Dimension | On-Premise Docker (Weeks 3–5) | Cloud Run (Week 8) |
 |---|---|---|
-| Infrastructure setup | 3 VMs created, Docker installed on each | ← fill in your observation |
-| Deployment command | SSH → docker build → docker run | ← fill in your observation |
-| TLS / HTTPS | Not configured | ← fill in your observation |
-| Scaling approach | Manual — redeploy or add VMs | ← fill in your observation |
-| Port management | Ports 5000/5001/5002 per environment | ← fill in your observation |
-| Cost when idle | VM running 24/7 regardless of traffic | ← fill in your observation |
-| Rollback | Re-deploy previous image manually | ← fill in your observation |
-| Secrets management | GitHub Secrets → env vars in workflow | ← fill in your observation |
-
----
+| Infrastructure setup | 3 VMs created, Docker installed on each | No VMs needed — just pushed a Docker image |
+| Deployment command | SSH → docker build → docker run | terraform apply or gcloud run deploy |
+| TLS / HTTPS | Not configured | Automatic HTTPS — no configuration needed |
+| Scaling approach | Manual — redeploy or add VMs | Automatic — scales to zero when idle |
+| Port management | Ports 5000/5001/5002 per environment | No port config needed — handled automatically |
+| Cost when idle | VM running 24/7 regardless of traffic | Zero cost — scales to zero with no traffic |
+| Rollback | Re-deploy previous image manually | Deploy previous image tag |
+| Secrets management | GitHub Secrets → env vars in workflow | GitHub Secrets → env vars in workflow |
 
 ## Reflection Questions
 
-Answer each question in 2–4 sentences based on your direct experience.
-
 **Q1: Which approach required more manual steps from push to live URL?**
-List the specific steps that were eliminated by Cloud Run.
-
-*(your answer here)*
-
----
+On-premise Docker required significantly more manual steps. Each deployment required SSHing into the VM, building the image on that machine, and restarting the container. Cloud Run eliminated SSH access, VM management, port configuration, and TLS setup — a single terraform apply handles everything.
 
 **Q2: Audit trail — which version is running?**
-A security audit asks how you know which version of the code is currently running
-in production. How would you answer for on-premise Docker vs. Cloud Run with
-commit SHA tagging?
-
-*(your answer here)*
-
----
+With on-premise Docker using latest tags, there is no reliable way to trace a running container back to a specific commit. With Cloud Run and commit SHA tagging, you can run gcloud run services describe and see the exact image tag, then match that SHA to a specific commit in git log. This gives a complete audit trail for every deployment.
 
 **Q3: Security advantage of scale-to-zero**
-Your on-premise VMs ran 24/7 even when no students were using the app.
-Cloud Run scales to zero. What is the security advantage of scale-to-zero
-beyond cost savings?
-
-*(your answer here)*
-
----
+When no instances are running, there is no attack surface. A VM running 24/7 is constantly exposed with open ports and running processes that can be exploited even when no legitimate traffic is present. A scaled-to-zero Cloud Run service has nothing to attack between requests.
 
 **Q4: Attack surface reduction**
-The OIDC workflow replaced the SSH key secrets from Weeks 3–5.
-What attack surface was eliminated?
-
-*(your answer here)*
+SSH keys are static long-lived credentials that can be stolen or leaked in git history. OIDC tokens are short-lived and tied to a specific workflow run — there is nothing to steal and store. This eliminates the risk of credential exfiltration and removes the need to manage and rotate SSH keys entirely.
